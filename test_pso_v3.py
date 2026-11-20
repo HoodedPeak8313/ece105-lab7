@@ -1,7 +1,7 @@
 """Tests for pso_v3.py. Run from this folder: pytest"""
 import numpy as np
 
-from pso_v3 import Particle, pso_get_best, run_pso
+from pso_v3 import Particle, pso_get_best, run_pso, rastrigin
 
 
 def test_booth_finds_minimum():
@@ -51,3 +51,10 @@ def test_pso_solve_sphere_00():
 
     assert value == 0
     assert history[-1] == 0
+
+
+def test_rastrigin_uses_all_dimensions():
+    x1 = np.array([0.0, 0.0])
+    x2 = np.array([0.0, 1.0])
+
+    assert rastrigin(x1) != rastrigin(x2)

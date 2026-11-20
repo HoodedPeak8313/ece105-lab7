@@ -80,12 +80,33 @@ test_pso_v3.py .......                                                          
 
 ## Issue 5: Rastrigin's answer is wrong
 
-- Reproduce (the command, and what it printed):
-- Expected (what, and why):
+- Reproduce (the command, and what it printed): python pso_v3.py rastrigin 2 20 -5.12 5.12 100
+rastrigin: best x = [0.     1.6587], f(x) = 10, iterations run: 45
+- Expected (what, and why): The output should have been [0,0] because that is the optimum value for the Rastrigin function
 - Hypothesis (one sentence): is the swarm stuck, or is something else wrong?
+the swarm gets stuck at a local minimum instead of finding the objective best value of [0,0].
 - Confirm (an experiment of 1 to 3 lines, and what it printed):
+We can see that in the rastrigin function we have this line of code:
+return 10 * n + sum(x[i] ** 2 - 10 * np.cos(2 * np.pi * x[i]) for i in range(n - 1))
+When using range(n-1), we are not using all the data that we should be using, resulting in inaccurate results.
 - Fix (the line before, and after):
+before: return 10 * n + sum(x[i] ** 2 - 10 * np.cos(2 * np.pi * x[i]) for i in range(n - 1))
+after: return 10 * n + sum(x[i] ** 2 - 10 * np.cos(2 * np.pi * x[i]) for i in range(n))
 - Test (its name; it failed before the fix, and passes after):
+================================================================= short test summary info ==================================================================
+FAILED test_pso_v3.py::test_rastrigin_uses_all_dimensions - assert np.float64(10.0) != np.float64(10.0)
+=============================================================== 1 failed, 7 passed in 0.18s ================================================================
+
+
+=================================================================== test session starts ====================================================================
+platform win32 -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\gavin\Desktop\Lab7_Code
+collected 8 items                                                                                                                                           
+
+test_pso_v3.py ........                                                                                                                               [100%]
+
+==================================================================== 8 passed in 0.12s =====================================================================
+
 
 ## Three questions
 
