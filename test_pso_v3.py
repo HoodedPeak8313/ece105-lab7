@@ -44,3 +44,10 @@ def test_get_pbest_returns_pbest():
     p = Particle(dim=2,xmin=-10,xmax=10)
 
     assert np.array_equal(p.get_pbest(),p.pbest)
+
+
+def test_pso_solve_sphere_00():
+    x, value, history = run_pso("sphere", 2, 20, 0, 10, 100)
+
+    assert value == 0
+    assert history[-1] == 0
